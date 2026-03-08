@@ -1,13 +1,17 @@
 /**
- * Estimador de salario de mercado usando OpenAI.
+ * Estimador de salario de mercado usando Featherless AI.
  *
  * Recibe el perfil de una usuaria y devuelve:
  * - estimated_salary: el salario mensual estimado del mercado
  * - currency: la moneda del salario
  * - gap_percentage: qué tan lejos está del mercado (positivo = por debajo)
  * - summary: una explicación corta en español
+ *
+ * Usa DeepSeek-R1 (el modelo más avanzado disponible en Featherless).
+ *
+ * @see https://featherless.ai/docs/quickstart-guide
  */
-import { getOpenAI } from "@/lib/openai";
+import { getFeatherless } from "@/lib/featherless";
 import type { SalarySubmission } from "@/types/database";
 
 // --- Tipos ---
@@ -20,11 +24,23 @@ export interface SalaryEstimate {
   summary: string;
 }
 
+// --- Modelo ---
+
+/**
+ * Modelo a usar en Featherless.
+ *
+ * DeepSeek-R1 es el modelo más avanzado disponible (671B parámetros).
+ * Si necesitas respuestas más rápidas, puedes cambiar a:
+ * - "Qwen/Qwen2.5-72B-Instruct" (rápido, bueno con JSON)
+ * - "meta-llama/Llama-3.3-70B-Instruct" (alternativa sólida)
+ */
+const MODEL = "deepseek-ai/DeepSeek-R1";
+
 // --- Prompt ---
 
 /**
  * Construye el prompt que describe el perfil de la usuaria.
- * Se separa del llamado a OpenAI para que sea fácil de leer y testear.
+ * Se separa del llamado a la IA para que sea fácil de leer y testear.
  */
 function buildPrompt(profile: SalarySubmission): string {
   return `Eres una experta en compensación y mercado laboral en Latinoamérica.
@@ -71,21 +87,21 @@ del mercado laboral de la región.
 }`;
 }
 
-// --- Llamada a OpenAI ---
+// --- Llamada a Featherless AI ---
 
 /**
- * Llama a OpenAI para estimar el salario de mercado.
+ * Llama a Featherless AI para estimar el salario de mercado.
  *
- * Usa gpt-4o-mini por ser rápido y económico (ideal para hackathon).
- * Si necesitas más precisión, cambia a "gpt-4o".
+ * Featherless es compatible con el SDK de OpenAI, así que el código
+ * es idéntico — solo cambia el cliente y el modelo.
  */
 export async function estimateSalary(
   profile: SalarySubmission
 ): Promise<SalaryEstimate> {
   const prompt = buildPrompt(profile);
 
-  const response = await getOpenAI().chat.completions.create({
-    model: "gpt-4o-mini",
+  const response = await getFeatherless().chat.completions.create({
+    model: MODEL,
     messages: [
       {
         role: "system",
@@ -98,15 +114,28 @@ export async function estimateSalary(
       },
     ],
     temperature: 0.3, // Baja temperatura = respuestas más consistentes
-    max_tokens: 300,
+    max_tokens: 500,
   });
 
   const content = response.choices[0]?.message?.content ?? "";
 
-  // Limpiar respuesta: a veces OpenAI envuelve el JSON en ```json ... ```
-  const cleaned = content.replace(/```json\n?|```\n?/g, "").trim();
+  // Limpiar respuesta: algunos modelos envuelven el JSON en ```json ... ```
+  // o incluyen texto de "pensamiento" antes del JSON (<think>...</think>)
+  let cleaned = content;
 
-  const parsed: SalaryEstimate = JSON.parse(cleaned);
+  // Remover bloques <think>...</think> que DeepSeek-R1 puede incluir
+  cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/g, "");
+
+  // Remover bloques de código markdown
+  cleaned = cleaned.replace(/```json\n?|```\n?/g, "");
+
+  // Extraer el primer objeto JSON válido
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    throw new Error("No se encontró JSON válido en la respuesta de la IA");
+  }
+
+  const parsed: SalaryEstimate = JSON.parse(jsonMatch[0]);
 
   return parsed;
 }

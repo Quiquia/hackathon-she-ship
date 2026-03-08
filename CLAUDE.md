@@ -20,7 +20,7 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 - Tailwind CSS v4 (via `@tailwindcss/postcss`)
 - Geist font loaded via `next/font/google`
 - Supabase (database + auth) via `@supabase/supabase-js`
-- OpenAI (`openai` SDK) for salary market estimation
+- Featherless AI (OpenAI-compatible API) for salary market estimation via `openai` SDK
 
 ## Architecture
 
@@ -35,8 +35,8 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 - `src/app/salary-input/actions.ts` — Server action: saves form to Supabase, returns submission ID
 - `src/components/` — Shared components (`Header`, `Footer`)
 - `src/lib/supabase.ts` — Supabase server-side client (uses `SUPABASE_SECRET_KEY`)
-- `src/lib/openai.ts` — OpenAI client (lazy init, server-side only)
-- `src/lib/salary-estimator.ts` — Builds prompt from profile + calls OpenAI to estimate market salary
+- `src/lib/featherless.ts` — Featherless AI client (lazy init, server-side only, OpenAI SDK)
+- `src/lib/salary-estimator.ts` — Builds prompt from profile + calls Featherless AI to estimate market salary
 - `src/types/database.ts` — TypeScript interfaces matching Supabase tables
 
 ### App Flow
@@ -52,12 +52,13 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 - **Env vars:** `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY` (see `.env.example`)
 - **MCP:** Supabase MCP server configured in `.mcp.json`
 
-### OpenAI Integration
+### Featherless AI Integration
 
-- **Client:** `src/lib/openai.ts` — lazy singleton via `getOpenAI()` (avoids build errors when key is missing)
+- **Client:** `src/lib/featherless.ts` — lazy singleton via `getFeatherless()` (OpenAI SDK with custom baseURL)
+- **Base URL:** `https://api.featherless.ai/v1`
 - **Estimator:** `src/lib/salary-estimator.ts` — takes a `SalarySubmission`, returns `SalaryEstimate` (estimated_salary, gap_percentage, gap_direction, summary)
-- **Model:** `gpt-4o-mini` (fast + cheap for hackathon; change to `gpt-4o` for more precision)
-- **Env var:** `OPENAI_API_KEY` (see `.env.example`)
+- **Model:** `deepseek-ai/DeepSeek-R1` (671B params, most advanced open-source model)
+- **Env var:** `FEATHERLESS_API_KEY` (see `.env.example`)
 
 ## Design Tokens
 
