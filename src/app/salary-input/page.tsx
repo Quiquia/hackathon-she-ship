@@ -54,7 +54,7 @@ export default function SalaryInputPage() {
       return;
     }
 
-    router.push("/reality-check");
+    router.push(`/reality-check?id=${result.id}`);
   }
 
   return (

@@ -3,9 +3,14 @@
 import { supabase } from "@/lib/supabase";
 import type { SalarySubmissionInsert } from "@/types/database";
 
+/**
+ * Guarda el perfil salarial en Supabase.
+ *
+ * Retorna el ID de la submission para redirigir a /reality-check?id=xxx
+ */
 export async function submitSalaryProfile(
   formData: FormData
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; id?: string; error?: string }> {
   const submission: SalarySubmissionInsert = {
     accepted_terms: formData.get("acceptedTerms") === "on",
     role_area: (formData.get("roleArea") as string) || null,
@@ -25,10 +30,9 @@ export async function submitSalaryProfile(
     employment_type: (formData.get("employmentType") as string) || null,
     work_schedule: (formData.get("workSchedule") as string) || null,
     company_scope: (formData.get("companyScope") as string) || null,
-    monthly_salary_amount:
-      formData.get("monthlySalaryAmount")
-        ? Number(formData.get("monthlySalaryAmount"))
-        : null,
+    monthly_salary_amount: formData.get("monthlySalaryAmount")
+      ? Number(formData.get("monthlySalaryAmount"))
+      : null,
     salary_currency: (formData.get("salaryCurrency") as string) || null,
     salary_type: (formData.get("salaryType") as string) || null,
     has_variable_compensation:
@@ -40,14 +44,16 @@ export async function submitSalaryProfile(
       formData.get("wantsSalaryNegotiationPractice") === "on" ? true : false,
   };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("salary_submissions")
-    .insert(submission);
+    .insert(submission)
+    .select("id")
+    .single();
 
   if (error) {
     console.error("Supabase insert error:", error);
     return { success: false, error: error.message };
   }
 
-  return { success: true };
+  return { success: true, id: data.id };
 }

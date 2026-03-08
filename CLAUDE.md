@@ -20,6 +20,7 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 - Tailwind CSS v4 (via `@tailwindcss/postcss`)
 - Geist font loaded via `next/font/google`
 - Supabase (database + auth) via `@supabase/supabase-js`
+- OpenAI (`openai` SDK) for salary market estimation
 
 ## Architecture
 
@@ -31,10 +32,17 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 ### Key directories
 
 - `src/app/` — Pages and routes (landing, `/salary-input`, `/reality-check`)
-- `src/app/salary-input/actions.ts` — Server actions for Supabase inserts
+- `src/app/salary-input/actions.ts` — Server action: saves form to Supabase, returns submission ID
 - `src/components/` — Shared components (`Header`, `Footer`)
 - `src/lib/supabase.ts` — Supabase server-side client (uses `SUPABASE_SECRET_KEY`)
+- `src/lib/openai.ts` — OpenAI client (lazy init, server-side only)
+- `src/lib/salary-estimator.ts` — Builds prompt from profile + calls OpenAI to estimate market salary
 - `src/types/database.ts` — TypeScript interfaces matching Supabase tables
+
+### App Flow
+
+1. `/salary-input` — User fills form → server action saves to Supabase → redirects to `/reality-check?id=xxx`
+2. `/reality-check?id=xxx` — Dynamic server page: fetches submission from Supabase, calls OpenAI to estimate market salary, displays comparison cards (current salary, estimated salary, gap percentage)
 
 ### Supabase
 
@@ -43,6 +51,13 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 - **Client:** Server-side only (`src/lib/supabase.ts`) — never import in client components
 - **Env vars:** `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY` (see `.env.example`)
 - **MCP:** Supabase MCP server configured in `.mcp.json`
+
+### OpenAI Integration
+
+- **Client:** `src/lib/openai.ts` — lazy singleton via `getOpenAI()` (avoids build errors when key is missing)
+- **Estimator:** `src/lib/salary-estimator.ts` — takes a `SalarySubmission`, returns `SalaryEstimate` (estimated_salary, gap_percentage, gap_direction, summary)
+- **Model:** `gpt-4o-mini` (fast + cheap for hackathon; change to `gpt-4o` for more precision)
+- **Env var:** `OPENAI_API_KEY` (see `.env.example`)
 
 ## Design Tokens
 

@@ -20,6 +20,7 @@ All UI text must be in Spanish (`lang="es"`).
 - Tailwind CSS v4 (via `@tailwindcss/postcss`)
 - Geist font loaded via `next/font/google`
 - Supabase (database + auth) via `@supabase/supabase-js`
+- OpenAI (`openai` SDK) for salary market estimation
 
 ## Architecture
 
@@ -30,10 +31,17 @@ All UI text must be in Spanish (`lang="es"`).
 ### Key directories
 
 - `src/app/` — Pages and routes (landing, `/salary-input`, `/reality-check`)
-- `src/app/salary-input/actions.ts` — Server actions for Supabase inserts
+- `src/app/salary-input/actions.ts` — Server action: saves form to Supabase, returns submission ID
 - `src/components/` — Shared components (`Header`, `Footer`)
 - `src/lib/supabase.ts` — Supabase server-side client (uses `SUPABASE_SECRET_KEY`)
+- `src/lib/openai.ts` — OpenAI client (lazy init, server-side only)
+- `src/lib/salary-estimator.ts` — Builds prompt from profile + calls OpenAI to estimate market salary
 - `src/types/database.ts` — TypeScript interfaces matching Supabase tables
+
+### App Flow
+
+1. `/salary-input` — User fills form → server action saves to Supabase → redirects to `/reality-check?id=xxx`
+2. `/reality-check?id=xxx` — Dynamic server page: fetches submission, calls OpenAI, displays salary comparison
 
 ### Supabase
 
@@ -42,9 +50,16 @@ All UI text must be in Spanish (`lang="es"`).
 - **Client:** Server-side only (`src/lib/supabase.ts`) — NEVER import in client components
 - **Env vars:** `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY` (see `.env.example`)
 
+### OpenAI Integration
+
+- **Client:** `src/lib/openai.ts` — lazy singleton via `getOpenAI()` (avoids build errors when key is missing)
+- **Estimator:** `src/lib/salary-estimator.ts` — takes a `SalarySubmission`, returns `SalaryEstimate`
+- **Model:** `gpt-4o-mini` (fast + cheap; change to `gpt-4o` for precision)
+- **Env var:** `OPENAI_API_KEY` (see `.env.example`)
+
 ### Server Actions Pattern
 
-All Supabase mutations use server actions (`"use server"`) co-located with their route in `actions.ts` files. They return `{ success: boolean; error?: string }`. Use `FormData` for form submissions. Nullable fields use `|| null`, booleans from checkboxes use `=== "on"`.
+All Supabase mutations use server actions (`"use server"`) co-located with their route in `actions.ts` files. They return `{ success: boolean; id?: string; error?: string }`. Use `FormData` for form submissions. Nullable fields use `|| null`, booleans from checkboxes use `=== "on"`.
 
 ## Design Tokens
 
@@ -65,3 +80,4 @@ Custom warm theme defined in `src/app/globals.css` using Tailwind v4 `@theme inl
 - Icons from `lucide-react`
 - Prefer `"use client"` only when state or browser APIs are needed
 - Keep server logic in `actions.ts`, never in client components
+- OpenAI and Supabase clients are server-side only — never import in `"use client"` files
