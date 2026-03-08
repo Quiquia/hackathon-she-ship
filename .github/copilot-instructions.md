@@ -1,10 +1,10 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# Copilot Instructions — Salary Sister AI
 
 ## Project Overview
 
 Salary Sister AI — a Spanish-language financial empowerment platform helping women analyze salary gaps and negotiate better compensation. Built as a hackathon project ("She Ships").
+
+All UI text must be in Spanish (`lang="es"`).
 
 ## Commands
 
@@ -23,10 +23,9 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 
 ## Architecture
 
-- Uses the Next.js App Router (`src/app/`) — all pages are React Server Components by default
+- App Router in `src/app/` — pages are React Server Components by default
 - Path alias: `@/*` maps to `./src/*`
 - Remote images allowed from `images.unsplash.com` (configured in `next.config.ts`)
-- App language is Spanish (`lang="es"`)
 
 ### Key directories
 
@@ -40,9 +39,12 @@ Salary Sister AI — a Spanish-language financial empowerment platform helping w
 
 - **Table:** `salary_submissions` (22 columns — see `FIELD_MAPPING.md` for full schema)
 - **Types:** `SalarySubmission` / `SalarySubmissionInsert` in `src/types/database.ts`
-- **Client:** Server-side only (`src/lib/supabase.ts`) — never import in client components
+- **Client:** Server-side only (`src/lib/supabase.ts`) — NEVER import in client components
 - **Env vars:** `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY` (see `.env.example`)
-- **MCP:** Supabase MCP server configured in `.mcp.json`
+
+### Server Actions Pattern
+
+All Supabase mutations use server actions (`"use server"`) co-located with their route in `actions.ts` files. They return `{ success: boolean; error?: string }`. Use `FormData` for form submissions. Nullable fields use `|| null`, booleans from checkboxes use `=== "on"`.
 
 ## Design Tokens
 
@@ -54,3 +56,12 @@ Custom warm theme defined in `src/app/globals.css` using Tailwind v4 `@theme inl
 - **Accent:** `valor` #C8860A (gold), `valor-light` #F5E6C8, `valor-subtle` #FBF3E4
 - **Semantic:** `warmth` #C2724E, `growth` #5A7F60, `gap` #B84040
 - **Borders:** `border` rgba(45,27,66,0.08), `border-strong` rgba(45,27,66,0.15)
+
+## Coding Conventions
+
+- Use Tailwind utility classes with the custom design tokens above (e.g., `bg-parchment`, `text-ink`, `border-border-strong`, `bg-plum`)
+- Do NOT use generic Tailwind colors (`gray-500`, `blue-600`, etc.) — use the project tokens
+- All form inputs use consistent styling classes (see `src/app/salary-input/page.tsx` for patterns)
+- Icons from `lucide-react`
+- Prefer `"use client"` only when state or browser APIs are needed
+- Keep server logic in `actions.ts`, never in client components
