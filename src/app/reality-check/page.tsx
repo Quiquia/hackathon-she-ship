@@ -1,84 +1,86 @@
 import Link from "next/link";
-import { ChartColumn, Zap, ShieldCheck, ChevronRight } from "lucide-react";
+import { TrendingUp, ArrowRight, Target } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function RealityCheckPage() {
   return (
-    <div className="min-h-screen bg-[#F5F3FF] font-sans text-foreground selection:bg-primary selection:text-white flex flex-col">
+    <div className="min-h-screen bg-parchment font-sans text-ink flex flex-col">
       <Header />
 
       <main className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-1">
-        <div className="flex flex-col items-center min-h-[80vh] py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
-          {/* Hero banner */}
-          <div className="text-center mb-12 w-full bg-gradient-to-br from-[#6B21A8] via-primary to-blue-500 p-10 sm:p-14 rounded-[3rem] text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent/30 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-400/30 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
+        <div className="flex flex-col items-center py-12 px-4 sm:px-6 max-w-5xl mx-auto w-full">
+          {/* Hero banner — plum solid, not gradient chaos */}
+          <div className="text-center mb-12 w-full bg-plum-deep p-10 sm:p-14 rounded-2xl text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(200,134,10,0.12)_0%,_transparent_50%)]" />
 
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-white/30 relative z-10">
-              <ChartColumn className="w-10 h-10 text-white" />
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto mb-6 border border-white/10 relative z-10">
+              <Target className="w-8 h-8 text-valor-light" />
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 relative z-10">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 relative z-10">
               Tu Salary Reality Check
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed relative z-10 font-medium">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto leading-relaxed relative z-10 font-medium">
               Descubre dónde te encuentras realmente en el mercado y cuánto
               valor estás dejando en la mesa.
             </p>
           </div>
 
-          {/* Salary cards */}
-          <div className="grid md:grid-cols-3 gap-6 w-full mb-12">
+          {/* Salary cards — warm, clear hierarchy */}
+          <div className="grid md:grid-cols-3 gap-5 w-full mb-12">
             {/* Current salary */}
-            <div className="bg-white border-2 border-violet-200 p-8 rounded-[2rem] shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center text-center relative overflow-hidden">
-              <div className="w-full h-2 bg-gradient-to-r from-gray-200 to-gray-300 absolute top-0 left-0" />
-              <p className="text-muted font-bold uppercase tracking-wider text-sm mb-3">
+            <div className="bg-surface-elevated border border-border p-8 rounded-2xl flex flex-col items-center text-center">
+              <p className="text-ink-muted font-semibold uppercase tracking-wider text-xs mb-4">
                 Tu salario actual
               </p>
-              <p className="text-4xl font-extrabold text-foreground">
+              <p className="text-4xl font-extrabold text-ink tracking-tight">
                 S/5,500
               </p>
+              <p className="text-sm text-ink-muted mt-2 font-medium">mensual</p>
             </div>
 
-            {/* Estimated market salary */}
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-8 rounded-[2rem] shadow-xl shadow-blue-500/20 flex flex-col items-center text-center text-white relative overflow-hidden transform md:-translate-y-4">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
-              <p className="text-blue-100 font-bold uppercase tracking-wider text-sm mb-3 relative z-10 flex items-center gap-2">
-                <Zap className="w-4 h-4 text-yellow-300" />
+            {/* Estimated market salary — gold accent, this is your "valor" */}
+            <div className="bg-surface-elevated border-2 border-valor/30 p-8 rounded-2xl flex flex-col items-center text-center relative transform md:-translate-y-3">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-valor text-white text-xs font-bold rounded-full tracking-wide">
+                Tu valor real
+              </div>
+              <p className="text-ink-muted font-semibold uppercase tracking-wider text-xs mb-4 mt-2">
                 Salario promedio estimado
               </p>
-              <p className="text-5xl font-extrabold text-white relative z-10">
+              <p className="text-5xl font-extrabold text-ink tracking-tight">
                 S/7,799
               </p>
-              <div className="mt-4 px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold border border-white/20">
-                Tu objetivo ideal
+              <div className="flex items-center gap-1.5 mt-3 text-valor">
+                <TrendingUp className="w-4 h-4" />
+                <span className="text-sm font-bold">Tu objetivo ideal</span>
               </div>
             </div>
 
-            {/* Salary gap */}
-            <div className="bg-gradient-to-br from-accent to-[#E11D48] border-2 border-transparent p-8 rounded-[2rem] shadow-lg shadow-rose-500/20 flex flex-col items-center text-center text-white relative overflow-hidden">
-              <div className="w-full h-2 bg-white/20 absolute top-0 left-0" />
-              <p className="text-rose-100 font-bold uppercase tracking-wider text-sm mb-3">
+            {/* Salary gap — warm red, not aggressive */}
+            <div className="bg-surface-elevated border border-gap/20 p-8 rounded-2xl flex flex-col items-center text-center">
+              <p className="text-ink-muted font-semibold uppercase tracking-wider text-xs mb-4">
                 Brecha salarial
               </p>
-              <p className="text-5xl font-extrabold text-white">29%</p>
-              <p className="mt-4 text-rose-100 text-sm font-medium">
+              <p className="text-5xl font-extrabold text-gap tracking-tight">
+                29%
+              </p>
+              <p className="mt-3 text-gap/80 text-sm font-semibold">
                 Por debajo del mercado
               </p>
             </div>
           </div>
 
-          {/* CTA banner */}
-          <div className="w-full bg-gradient-to-r from-[#EDE9FE] to-[#E0E7FF] border border-white/50 rounded-3xl p-8 md:p-10 mb-12 shadow-md flex flex-col md:flex-row items-center gap-8 justify-between">
-            <div className="flex items-center gap-6 text-left">
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                <ShieldCheck className="w-8 h-8 text-primary" />
+          {/* CTA banner — warm, encouraging */}
+          <div className="w-full bg-surface-elevated border border-border rounded-2xl p-8 md:p-10 mb-12 flex flex-col md:flex-row items-center gap-8 justify-between">
+            <div className="flex items-center gap-5 text-left">
+              <div className="w-14 h-14 bg-plum-light rounded-xl flex items-center justify-center shrink-0">
+                <TrendingUp className="w-7 h-7 text-plum" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#1E1B4B] mb-2">
+                <h3 className="text-xl font-bold text-ink mb-1">
                   El conocimiento es poder
                 </h3>
-                <p className="text-[#4338CA] text-lg">
+                <p className="text-ink-secondary">
                   Ahora tienes información respaldada por datos. Estás lista
                   para el siguiente paso.
                 </p>
@@ -86,10 +88,10 @@ export default function RealityCheckPage() {
             </div>
             <Link
               href="/salary-impact"
-              className="shrink-0 h-16 px-8 rounded-full bg-primary text-white font-extrabold text-lg flex items-center justify-center gap-3 shadow-xl shadow-primary/30 hover:scale-105 transition-all"
+              className="shrink-0 h-14 px-8 rounded-xl bg-plum text-white font-bold text-lg flex items-center justify-center gap-3 hover:bg-plum-deep hover:shadow-lg hover:shadow-plum/20 transition-all"
             >
               Ver mi impacto a 10 años
-              <ChevronRight className="w-6 h-6" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>

@@ -2,35 +2,39 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import {
+  ArrowRight,
+  TrendingUp,
+  Target,
+  MessageCircle,
+} from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-parchment">
       <Header />
 
       <main className="relative w-full flex flex-col">
-        {/* Hero Section */}
-        <section className="relative w-full pt-20 pb-28 px-6 md:px-12 lg:px-24 overflow-hidden bg-gradient-to-br from-primary via-purple-700 to-accent">
-          <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row items-center gap-12">
+        {/* Hero — typography-driven, plum solid, gold accent */}
+        <section className="relative w-full pt-24 pb-32 px-6 md:px-12 lg:px-24 overflow-hidden bg-plum-deep">
+          {/* Subtle texture */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(91,45,142,0.4)_0%,_transparent_60%)]" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-valor/10 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
             {/* Left content */}
             <div className="flex-1 flex flex-col gap-8 text-white">
-              <span className="inline-flex items-center gap-2 bg-white/20 rounded-full px-5 py-2.5 text-sm font-bold w-fit backdrop-blur-sm">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                </svg>
+              <span className="inline-flex items-center gap-2 bg-valor/20 border border-valor/30 rounded-full px-5 py-2.5 text-sm font-semibold w-fit text-valor-light">
+                <TrendingUp className="w-4 h-4" />
                 Plataforma de Empoderamiento Financiero
               </span>
 
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight">
-                Descubre si tu salario refleja realmente tu valor profesional.
+              <h1 className="text-4xl md:text-5xl lg:text-[4.25rem] font-extrabold leading-[1.08] tracking-tight">
+                Descubre si tu salario refleja realmente{" "}
+                <span className="text-valor-light">tu valor profesional.</span>
               </h1>
 
-              <p className="text-lg md:text-xl font-medium text-white/90 max-w-xl">
+              <p className="text-lg md:text-xl font-medium text-white/75 max-w-xl leading-relaxed">
                 Salary Sister AI analiza tu salario, identifica brechas respecto
                 al mercado y te ayuda a negociar con confianza para alcanzar la
                 igualdad salarial.
@@ -39,9 +43,10 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link
                   href="/salary-input"
-                  className="bg-accent hover:bg-accent/90 text-white text-lg font-extrabold px-10 py-4 rounded-2xl transition-colors"
+                  className="bg-valor hover:bg-valor/90 text-white text-lg font-bold px-10 py-4 rounded-xl transition-colors inline-flex items-center gap-3"
                 >
                   Analizar mi salario
+                  <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
 
@@ -53,245 +58,163 @@ export default function Home() {
                     alt="Usuario"
                     width={40}
                     height={40}
-                    className="rounded-full border-2 border-white object-cover"
+                    className="rounded-full border-2 border-plum-deep object-cover"
                   />
                   <Image
                     src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop"
                     alt="Usuario"
                     width={40}
                     height={40}
-                    className="rounded-full border-2 border-white object-cover"
+                    className="rounded-full border-2 border-plum-deep object-cover"
                   />
                   <Image
                     src="https://images.unsplash.com/photo-1531123897727-8f129e1bf98c?w=100&h=100&fit=crop"
                     alt="Usuario"
                     width={40}
                     height={40}
-                    className="rounded-full border-2 border-white object-cover"
+                    className="rounded-full border-2 border-plum-deep object-cover"
                   />
                 </div>
-                <p className="text-sm font-medium text-white/80">
+                <p className="text-sm font-medium text-white/60">
                   Únete a miles de mujeres cerrando la brecha salarial
                 </p>
               </div>
             </div>
 
-            {/* Right content */}
-            <div className="flex-1 relative hidden lg:block">
-              <Image
-                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
-                alt="Mujer profesional moderna negociando con confianza"
-                width={630}
-                height={674}
-                className="rounded-3xl object-cover w-full max-w-[630px]"
-                priority
-              />
-              {/* Stat card */}
-              <div className="absolute bottom-8 left-4 right-4 bg-white/10 backdrop-blur-md rounded-2xl p-6 flex items-center gap-4">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-accent shrink-0"
-                >
-                  <path
-                    d="M23 6L13.5 15.5L8.5 10.5L1 18"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M17 6H23V12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <div>
-                  <p className="text-sm font-medium text-white/80">
-                    Incremento salarial promedio
-                  </p>
-                  <p className="text-2xl font-bold text-white">
-                    +24% tras negociar
-                  </p>
+            {/* Right content — stat cards */}
+            <div className="flex-1 hidden lg:flex flex-col gap-4 max-w-md">
+              {/* Main insight card */}
+              <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                <p className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-6">
+                  Incremento promedio tras negociar
+                </p>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-7xl font-extrabold text-valor-light tracking-tight">+24</span>
+                  <span className="text-3xl font-bold text-valor-light">%</span>
                 </div>
+                <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="w-[75%] h-full bg-gradient-to-r from-valor to-valor-light rounded-full" />
+                </div>
+                <p className="text-sm text-white/50 mt-4 font-medium">
+                  Basado en mujeres que usaron datos de mercado en su negociación
+                </p>
+              </div>
+
+              {/* Secondary stat */}
+              <div className="bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
+                <p className="text-sm text-white/50 font-medium">Brecha promedio en LATAM</p>
+                <p className="text-2xl font-bold text-warmth">–21%</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Tools Section */}
+        {/* Tools Section — narrative flow, not identical cards */}
         <section
           id="herramientas"
-          className="w-full py-20 px-6 md:px-12 lg:px-24 bg-white relative z-20 -mt-10 rounded-t-[3rem]"
+          className="w-full py-24 px-6 md:px-12 lg:px-24 bg-parchment relative z-20 -mt-8 rounded-t-[2.5rem]"
         >
           <div className="max-w-[1248px] mx-auto">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-6">
-                Herramientas diseñadas para tu éxito
+            <div className="max-w-2xl mb-16">
+              <h2 className="text-3xl md:text-5xl font-extrabold text-ink mb-5 tracking-tight">
+                Tres pasos hacia tu valor real
               </h2>
-              <p className="text-lg md:text-xl text-muted">
-                Datos claros y práctica inmersiva para tomar el control de tu
-                carrera y cerrar la brecha.
+              <p className="text-lg text-ink-muted leading-relaxed">
+                Un camino claro: entiende tu posición, proyecta tu futuro y practica
+                tu negociación.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Card 1 */}
-              <div className="group border border-violet-200 rounded-3xl p-10 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="text-primary"
-                  >
-                    <path
-                      d="M22 12H18L15 21L9 3L6 12H2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Step 1 — Diagnóstico */}
+              <div className="group bg-surface-elevated border border-border rounded-2xl p-8 hover:border-border-strong hover:shadow-lg hover:shadow-plum/[0.04] transition-all duration-300 relative">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-xs font-bold text-valor uppercase tracking-widest">Paso 01</span>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">
+                <div className="w-12 h-12 rounded-xl bg-plum-light flex items-center justify-center mb-5">
+                  <Target className="w-6 h-6 text-plum" />
+                </div>
+                <h3 className="text-xl font-bold text-ink mb-3">
                   Salary Reality Check
                 </h3>
-                <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
+                <p className="text-ink-secondary leading-relaxed mb-6">
                   Analiza tu compensación actual frente a datos del mercado y
                   descubre tu rango salarial óptimo.
                 </p>
                 <Link
                   href="/salary-input"
-                  className="text-lg font-bold text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2"
+                  className="text-sm font-bold text-ink-muted group-hover:text-plum transition-colors inline-flex items-center gap-2"
                 >
-                  Explorar
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  Comenzar
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
 
-              {/* Card 2 */}
-              <div className="group border border-violet-200 rounded-3xl p-10 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-                <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="text-accent"
-                  >
-                    <path
-                      d="M12 1V23M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+              {/* Step 2 — Proyección */}
+              <div className="group bg-surface-elevated border border-border rounded-2xl p-8 hover:border-border-strong hover:shadow-lg hover:shadow-plum/[0.04] transition-all duration-300 relative">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-xs font-bold text-valor uppercase tracking-widest">Paso 02</span>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">
+                <div className="w-12 h-12 rounded-xl bg-valor-subtle flex items-center justify-center mb-5">
+                  <TrendingUp className="w-6 h-6 text-valor" />
+                </div>
+                <h3 className="text-xl font-bold text-ink mb-3">
                   Impacto Financiero
                 </h3>
-                <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
+                <p className="text-ink-secondary leading-relaxed mb-6">
                   Visualiza cómo la brecha salarial afecta tu futuro a largo
                   plazo a través de proyecciones a 10 años.
                 </p>
                 <a
                   href="#"
-                  className="text-lg font-bold text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2"
+                  className="text-sm font-bold text-ink-muted group-hover:text-plum transition-colors inline-flex items-center gap-2"
                 >
-                  Explorar
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  Próximamente
                 </a>
               </div>
 
-              {/* Card 3 */}
-              <div className="group border border-violet-200 rounded-3xl p-10 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-                <div className="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center mb-6">
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="text-primary"
-                  >
-                    <path
-                      d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+              {/* Step 3 — Práctica */}
+              <div className="group bg-surface-elevated border border-border rounded-2xl p-8 hover:border-border-strong hover:shadow-lg hover:shadow-plum/[0.04] transition-all duration-300 relative">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-xs font-bold text-valor uppercase tracking-widest">Paso 03</span>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">
+                <div className="w-12 h-12 rounded-xl bg-plum-light flex items-center justify-center mb-5">
+                  <MessageCircle className="w-6 h-6 text-plum" />
+                </div>
+                <h3 className="text-xl font-bold text-ink mb-3">
                   Simulador con IA
                 </h3>
-                <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
+                <p className="text-ink-secondary leading-relaxed mb-6">
                   Practica tu pitch de negociación en un entorno seguro con
-                  feedback en tiempo real y sugerencias de mejora.
+                  feedback en tiempo real.
                 </p>
                 <a
                   href="#"
-                  className="text-lg font-bold text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2"
+                  className="text-sm font-bold text-ink-muted group-hover:text-plum transition-colors inline-flex items-center gap-2"
                 >
-                  Explorar
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  Próximamente
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="w-full py-24 px-6 md:px-12 lg:px-24 bg-gradient-to-r from-primary to-accent text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black text-white mb-10">
+        {/* CTA Section — plum solid, gold accent */}
+        <section className="w-full py-24 px-6 md:px-12 lg:px-24 bg-plum-deep text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(200,134,10,0.1)_0%,_transparent_50%)]" />
+          <div className="max-w-3xl mx-auto relative z-10">
+            <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-5 tracking-tight">
               ¿Lista para ganar lo que mereces?
             </h2>
+            <p className="text-lg text-white/60 mb-10 font-medium">
+              Tu primera negociación informada empieza aquí.
+            </p>
             <Link
               href="/salary-input"
-              className="inline-block bg-white text-primary text-xl font-extrabold px-12 py-4 rounded-2xl hover:bg-white/90 transition-colors"
+              className="inline-flex items-center gap-3 bg-valor hover:bg-valor/90 text-white text-xl font-bold px-12 py-4 rounded-xl transition-colors"
             >
               Comenzar mi análisis gratuito
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </section>
